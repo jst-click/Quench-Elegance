@@ -1,0 +1,535 @@
+[
+  {
+    "slug": "aurelia-hair-elixir",
+    "name": "Aurelia Hair Elixir",
+    "subtitle": "Advanced Botanical Hair Nourishment Oil",
+    "category": "Hair Oil",
+    "size": "100 ml",
+    "mrp": 1999,
+    "price": 1999,
+    "stock": 100,
+    "featured": true,
+    "sortOrder": 1,
+    "image": "/uploads/products/aurelia-hair-elixir.jpg",
+    "tagline": "Inspired by Nature. Designed for Healthy-Looking Hair.",
+    "highlight": "62+ botanical ingredients",
+    "shortDescription": "A rich botanical oil with 62+ herbs, flowers and nourishing oils that conditions the hair fibre, softens dry hair and brings back a natural-looking shine.",
+    "intro": "With Rosemary, Hibiscus, Amla, Bhringraj, Fenugreek, Curry Leaves and numerous other botanicals, AURELIA celebrates traditional herbal hair-care practices through an oil-based conditioning experience.",
+    "benefits": [
+      {
+        "title": "Helps Reduce Hair Breakage",
+        "body": "A nourishing blend of Coconut Oil, Castor Oil and Gingelly Oil helps condition the hair fibre, improve manageability and reduce friction during grooming. With regular use, well-conditioned hair may be less prone to breakage caused by dryness and mechanical stress."
+      },
+      {
+        "title": "Supports a Healthy Scalp Environment",
+        "body": "Botanicals such as Rosemary, Neem, Tulsi and Aloe Vera contribute to the formulation's distinctive botanical profile. A well-maintained scalp is an important part of a consistent hair-care routine."
+      },
+      {
+        "title": "Promotes Hair-Fibre Strength and Conditioning",
+        "body": "Lipid-rich oils help coat and lubricate the hair shaft, improving softness and manageability. This conditioning action helps maintain the appearance of stronger, smoother, healthier-looking hair."
+      },
+      {
+        "title": "Nourishes and Softens Dry Hair",
+        "body": "Coconut Oil, Gingelly Oil and Castor Oil provide emollient benefits that help soften dry hair, improve its feel and enhance its natural-looking shine."
+      },
+      {
+        "title": "Helps Improve Hair Smoothness and Shine",
+        "body": "The oil-based formulation helps smooth the hair's outer surface, making strands feel softer and appear glossier. Improved lubrication can also make detangling easier and reduce friction during combing."
+      },
+      {
+        "title": "Supports the Follicular Microenvironment Through Scalp Care",
+        "body": "Healthy hair begins with attention to the scalp. A consistent scalp-care routine can help maintain scalp comfort and conditioning. However, nourishing the scalp externally does not necessarily stimulate dormant follicles or guarantee new hair growth."
+      },
+      {
+        "title": "Complements a Botanical Hair-Care Ritual",
+        "body": "With Rosemary, Hibiscus, Amla, Bhringraj, Fenugreek, Curry Leaves and numerous other botanicals, AURELIA celebrates traditional herbal hair-care practices through an oil-based conditioning experience."
+      },
+      {
+        "title": "Helps Maintain Manageable, Healthy-Looking Hair",
+        "body": "Regular conditioning can help improve the look and feel of dry, rough or difficult-to-manage hair, leaving it softer, smoother and easier to style."
+      }
+    ],
+    "ingredients": [
+      "Rosemary (Dried)",
+      "Hibiscus Flower",
+      "Hibiscus Leaves",
+      "Curry Leaves",
+      "Cardamom",
+      "Clove",
+      "Peppercorns",
+      "Nerinjimul",
+      "Jatamansi",
+      "Karuvelampattai",
+      "Ginger",
+      "Vembalampattai",
+      "Black Kalonji",
+      "Flax Seeds",
+      "Onion",
+      "Amla",
+      "Garlic",
+      "Coconut Milk",
+      "Adhimadhuram",
+      "Avarampoo",
+      "Tulsi",
+      "Aloe Vera",
+      "Mustard Seeds",
+      "Fenugreek",
+      "Nochi",
+      "Kilanelli",
+      "Karpooravalli",
+      "Lemongrass",
+      "Coconut Oil",
+      "Gingelly Oil",
+      "Castor Oil",
+      "Drumstick Leaves",
+      "Neem Leaves",
+      "Sangu Poo",
+      "Guava Leaves",
+      "Dried Rose",
+      "Ponnanganni",
+      "Vallarai",
+      "Idli Poo",
+      "Betel Leaves",
+      "Vetiver",
+      "Badam (Almond)",
+      "Karum Sembai",
+      "Kuppaimeni",
+      "Omam",
+      "Kallipootan",
+      "Mudhior Koondhal",
+      "Neela Avuri",
+      "Bhringraj (Yellow)",
+      "Bhringraj (White)",
+      "Magizham Flowers",
+      "Pumpkin Seed Extract",
+      "Sunflower Seed Extract",
+      "Jojoba Extract",
+      "Bergamot Extract",
+      "Lemon",
+      "Pomegranate"
+    ],
+    "closingTitle": "Your hair deserves more than a routine.",
+    "closingBody": "It deserves thoughtful care, consistent nourishment, and a ritual inspired by the richness of nature.",
+    "signature": "AURELIA HAIR ELIXIR — Botanical Nourishment for the Beauty of Every Strand.",
+    "tags": [
+      "Active-Infused",
+      "Botanical",
+      "Herbal",
+      "Nourishing",
+      "Daily Care"
+    ]
+  },
+  {
+    "slug": "hair-renaissance",
+    "name": "Hair Renaissance",
+    "subtitle": "Advanced Essential Oil Hair Serum",
+    "category": "Hair Serum",
+    "size": "",
+    "mrp": 2999,
+    "price": 2999,
+    "stock": 100,
+    "featured": true,
+    "sortOrder": 2,
+    "image": "/uploads/products/hair-renaissance.jpg",
+    "tagline": "Revive your ritual. Elevate your hair. Embrace your renaissance.",
+    "highlight": "Seven-oil botanical blend",
+    "shortDescription": "An exquisite blend of seven oils — Virgin Coconut and Jojoba with Rosemary, Bergamot, Clary Sage, Peppermint and Cedarwood — for nourishment, scalp conditioning and hair-fibre care.",
+    "intro": "Discover HAIR RENAISSANCE, an exquisite blend of seven carefully selected oils, bringing together the conditioning richness of Virgin Coconut Oil and Jojoba Oil with the aromatic botanical character of Rosemary, Bergamot, Clary Sage, Peppermint and Cedarwood Oils. Inspired by botanical traditions and modern cosmetic science, this premium serum transforms everyday hair care into a luxurious ritual of nourishment, scalp conditioning and hair-fibre care.",
+    "benefits": [
+      {
+        "title": "Hair Strength & Breakage Care",
+        "body": "Virgin Coconut Oil helps condition the hair fibre, while Jojoba Oil provides lubrication that enhances smoothness and manageability. Together, these oils help reduce friction associated with everyday grooming, supporting hair that feels stronger, smoother and easier to manage."
+      },
+      {
+        "title": "Rosemary-Inspired Scalp Vitality",
+        "body": "Rosemary Oil brings a distinctive botanical character to this advanced serum. Recognised for its aromatic properties and scientific interest in hair-care research, Rosemary adds a sophisticated botanical dimension to your scalp-care ritual."
+      },
+      {
+        "title": "Refreshing Scalp Experience",
+        "body": "Peppermint Oil introduces a distinctive cooling sensation, while Bergamot, Clary Sage and Cedarwood Oils contribute an elegant aromatic profile — a refreshing sensory experience that elevates your hair-care routine into a moment of personal indulgence."
+      },
+      {
+        "title": "Advanced Lipid-Based Conditioning",
+        "body": "Virgin Coconut Oil and Jojoba Oil contribute complementary emollient properties that help lubricate and condition the hair, supporting softness, improving manageability and enhancing the appearance of natural shine."
+      },
+      {
+        "title": "Botanical Oil Synergy",
+        "body": "Every oil contributes its own distinctive character — from the conditioning properties of Coconut and Jojoba to the aromatic complexity of Rosemary, Peppermint, Bergamot, Clary Sage and Cedarwood."
+      },
+      {
+        "title": "Your Daily Ritual of Hair Confidence",
+        "body": "Healthy-looking hair is built through consistency, thoughtful grooming and the right care routine. HAIR RENAISSANCE complements this journey with a sophisticated oil-based serum designed to support smooth, manageable, well-conditioned hair."
+      }
+    ],
+    "ingredients": [
+      "Virgin Coconut Oil",
+      "Rosemary Oil",
+      "Bergamot Oil",
+      "Clary Sage Essential Oil",
+      "Jojoba Oil",
+      "Peppermint Oil",
+      "Cedarwood Oil"
+    ],
+    "closingTitle": "Your hair. Your confidence. Your renaissance.",
+    "closingBody": "Let every strand reflect the care you give it. Embrace a routine inspired by botanical richness, refined through cosmetic science, and created for those who believe that self-care is an expression of elegance.",
+    "signature": "HAIR RENAISSANCE — Where Botanical Oils Meet the Art of Beautiful Hair.",
+    "tags": [
+      "Active-Infused",
+      "Botanical",
+      "Nourishing",
+      "Daily Care"
+    ]
+  },
+  {
+    "slug": "scalp-elixir",
+    "name": "Scalp Elixir",
+    "subtitle": "Advanced Active-Infused Scalp & Hair Serum",
+    "category": "Hair Serum",
+    "size": "30 ml",
+    "mrp": 3999,
+    "price": 3999,
+    "stock": 100,
+    "featured": true,
+    "sortOrder": 3,
+    "image": "/uploads/products/scalp-elixir.jpg",
+    "tagline": "Where roots meet renewal.",
+    "highlight": "Procapil™ · Redensyl® · Anagain™ · Caffeine",
+    "shortDescription": "An advanced, active-infused scalp serum uniting Procapil™, Redensyl®, Anagain™, Caffeine, amino acids and botanical extracts for the appearance of fuller, healthier-looking hair.",
+    "intro": "SCALP ELIXIR unites innovative cosmetic ingredients, botanical extracts, amino acid technology and scalp-conditioning agents in one sophisticated formulation — designed around a science-inspired approach to scalp care.",
+    "benefits": [
+      {
+        "title": "Advanced Follicular Care",
+        "body": "Specialised cosmetic actives, including Procapil and Redensyl, are selected for their use in advanced hair-care formulations designed to support the appearance of stronger, fuller-looking hair."
+      },
+      {
+        "title": "Redensyl® — Active-Inspired Hair Care",
+        "body": "Redensyl is a specialised cosmetic active developed for hair-care applications, giving SCALP ELIXIR an advanced formulation identity centred on the appearance of hair density."
+      },
+      {
+        "title": "Anagain™ & Botanical Innovation",
+        "body": "Anagain is a plant-derived cosmetic active associated with pea sprout extract. Combined with Fenugreek, Hibiscus and Red Onion Extract, it adds a botanical dimension to this advanced scalp-care formulation."
+      },
+      {
+        "title": "Caffeine-Powered Scalp Care",
+        "body": "Caffeine (1,3,7-trimethylxanthine) adds another dimension to SCALP ELIXIR's active-ingredient profile, reflecting the growing scientific interest in caffeine-based topical hair-care formulations."
+      },
+      {
+        "title": "Amino Acid Technology & Hair-Fibre Conditioning",
+        "body": "Prodew 500 Amino Acid Blend and D-Panthenol complement the formulation with conditioning and moisture-supporting properties, while Vegetable Glycerine helps attract and retain moisture."
+      },
+      {
+        "title": "A Refined Scalp Environment",
+        "body": "Tea Tree and Rosemary Essential Oils contribute a distinctive botanical character. Combined with its water-based formulation, SCALP ELIXIR offers a modern approach to everyday scalp care."
+      },
+      {
+        "title": "Your Journey Towards Fuller-Looking Hair",
+        "body": "A consistent hair-care routine is an important part of maintaining healthy-looking hair. SCALP ELIXIR brings together advanced cosmetic actives, botanical extracts and conditioning technology for a more sophisticated hair-care journey."
+      }
+    ],
+    "ingredients": [
+      "DM Water",
+      "Fenugreek",
+      "Hibiscus",
+      "Red Onion Extract",
+      "Vegetable Glycerine",
+      "Xanthan Gum (Clear)",
+      "Procapil™ (Sederma)",
+      "Redensyl® Oil",
+      "D-Panthenol",
+      "Prodew 500 Amino Acid Blend",
+      "Xylishine™",
+      "Anagain™",
+      "Hair Growth Extract Blend",
+      "Iscaguard PEG",
+      "Tea Tree Essential Oil",
+      "Rosemary Essential Oil",
+      "Caffeine (1,3,7-Trimethylxanthine)"
+    ],
+    "closingTitle": "Advanced actives. Botanical intelligence.",
+    "closingBody": "A new era of scalp care — for people seeking a more sophisticated approach to their hair-care journey.",
+    "signature": "SCALP ELIXIR — Advanced Actives. Botanical Intelligence. A New Era of Scalp Care.",
+    "tags": [
+      "Active-Infused",
+      "Botanical",
+      "Advanced Scalp Care",
+      "Hair Conditioning"
+    ]
+  },
+  {
+    "slug": "lumiere-scalp-cream",
+    "name": "Lumière",
+    "subtitle": "Intensive Botanical Scalp Care Cream",
+    "category": "Scalp Care",
+    "size": "100 g",
+    "mrp": 3999,
+    "price": 3999,
+    "stock": 100,
+    "featured": true,
+    "sortOrder": 4,
+    "image": "/uploads/products/lumiere-scalp-cream.jpg",
+    "tagline": "Purity meets scalp elegance.",
+    "highlight": "Rich oils & plant butters",
+    "shortDescription": "An intensive scalp cream with Shea and Cocoa Butter, Neem, Avocado and Vitamin E that conditions the scalp and softens dry, visible flakes.",
+    "intro": "LUMIÈRE combines the richness of nourishing oils, luxurious plant butters and botanical extracts to elevate your scalp-care routine — moisture-rich conditioning and botanical-inspired scalp care in one cream.",
+    "benefits": [
+      {
+        "title": "Dandruff & Visible Flake Care",
+        "body": "Helps condition the scalp and soften dry surface flakes associated with dryness, supporting a cleaner-looking, more comfortable-feeling scalp as part of a consistent routine."
+      },
+      {
+        "title": "Intensive Scalp Nourishment",
+        "body": "Coconut Oil, Shea Butter, Cocoa Butter and Avocado Oil provide rich emollient properties that help nourish and condition the scalp, supporting softness and moisture retention."
+      },
+      {
+        "title": "Scalp Moisture Balance",
+        "body": "A blend of botanical oils and plant butters helps reduce moisture loss from the scalp, supporting a well-conditioned scalp environment and helping relieve the feeling of dryness."
+      },
+      {
+        "title": "Neem-Inspired Botanical Scalp Care",
+        "body": "Neem Oil brings traditional botanical inspiration to the formulation, complementing the nourishing properties of the cream's rich oils and butters."
+      },
+      {
+        "title": "Root-Area Conditioning",
+        "body": "A well-conditioned scalp is an important part of a thoughtful hair-care routine. LUMIÈRE helps maintain scalp softness and comfort, creating a nourishing foundation for regular hair care."
+      },
+      {
+        "title": "Rich Lipid-Based Conditioning",
+        "body": "Coconut, Castor, Olive and Grapeseed Oils with Beeswax contribute emollient and film-forming properties that help support scalp moisturisation. Vitamin E Oil complements the formulation's conditioning profile."
+      },
+      {
+        "title": "Botanical Comfort & Care",
+        "body": "Aloe Vera Extract and Neem Oil contribute to LUMIÈRE's botanical identity, while Shea Butter and Cocoa Butter provide a rich, conditioning experience designed specifically for scalp application."
+      }
+    ],
+    "ingredients": [
+      "Coconut Oil",
+      "Beeswax",
+      "Vitamin E Oil",
+      "Cocoa Butter",
+      "Shea Butter",
+      "Grapeseed Oil",
+      "Olive Oil",
+      "Castor Oil",
+      "Neem Oil",
+      "Avocado Oil",
+      "Aloe Vera Extract",
+      "Green Colour"
+    ],
+    "closingTitle": "A nourished scalp is the beginning of a better hair-care ritual.",
+    "closingBody": "Give your scalp the care it deserves with a luxurious blend of botanical oils, nourishing butters and moisture-supporting ingredients.",
+    "signature": "LUMIÈRE — Where Botanical Nourishment Meets Advanced Scalp Care.",
+    "tags": [
+      "Botanical",
+      "Nourishing",
+      "Moisture-Rich",
+      "Scalp Care"
+    ]
+  },
+  {
+    "slug": "lumiere-purify-shampoo",
+    "name": "Lumière Purify Shampoo",
+    "subtitle": "Advanced Botanical Anti-Dandruff Shampoo",
+    "category": "Shampoo",
+    "size": "100 ml",
+    "mrp": 999,
+    "price": 999,
+    "stock": 100,
+    "featured": false,
+    "sortOrder": 5,
+    "image": "/uploads/products/lumiere-purify-shampoo.jpg",
+    "tagline": "Pure scalp. Beautiful hair.",
+    "highlight": "Green Tea · Neem · Bhringraj",
+    "shortDescription": "A scalp-purifying shampoo with Green Tea, Neem and Bhringraj extracts that removes excess oil, impurities and visible loose flakes while keeping hair soft.",
+    "intro": "LUMIÈRE PURIFY is designed for a hair-care routine focused on dandruff concerns, scalp freshness and beautifully conditioned hair — combining modern cleansing technology with Green Tea, Bhringraj, Neem, Aloe Vera Hydrosol, Vegetable Glycerine and Panthenol.",
+    "benefits": [
+      {
+        "title": "Dandruff-Focused Scalp Cleansing",
+        "body": "A cleansing system with Sodium Laureth Sulfate, Cocamidopropyl Betaine and Alpha Olefin Sulfonate helps remove excess oil, impurities and accumulated scalp residue, along with visible loose flakes."
+      },
+      {
+        "title": "Green Tea — Botanical Antioxidant Care",
+        "body": "Green Tea Extract contains naturally occurring polyphenols, including catechins, that have attracted scientific interest for their antioxidant properties."
+      },
+      {
+        "title": "Neem — Traditional Botanical Care",
+        "body": "Neem has a long history of use in traditional personal-care practices and contributes to the formula's plant-inspired identity."
+      },
+      {
+        "title": "Bhringraj — Herbal Hair-Care Heritage",
+        "body": "Bhringraj is a recognised botanical in traditional Indian hair-care practices, reflecting our philosophy of drawing on botanical heritage with contemporary formulation technology."
+      },
+      {
+        "title": "Moisture & Scalp Comfort",
+        "body": "Vegetable Glycerine helps attract and retain moisture, Panthenol contributes conditioning properties and Aloe Vera Hydrosol complements the formula's moisture-focused profile."
+      },
+      {
+        "title": "A Fresh Start for Your Hair",
+        "body": "By helping remove everyday impurities and visible loose flakes, this shampoo contributes to a cleaner-feeling scalp and hair that looks refreshed and well-maintained."
+      }
+    ],
+    "ingredients": [
+      "DM Water",
+      "Vegetable Glycerine",
+      "Panthenol",
+      "Sodium Laureth Sulfate",
+      "Phenoxyethanol",
+      "PEG-150",
+      "EDTA",
+      "CAPB",
+      "Aloe Vera Hydrosol",
+      "CDEA",
+      "Alpha Olefin Sulfonate",
+      "Fragrance Oil",
+      "Green Tea Extract",
+      "Bhringraj Extract",
+      "Neem Extract"
+    ],
+    "closingTitle": "A clearer scalp. A fresher feel. A more confident you.",
+    "closingBody": "Make every wash part of a consistent routine that places scalp hygiene, comfort and hair conditioning at the centre of your self-care journey.",
+    "signature": "LUMIÈRE PURIFY — Botanical Scalp Care. Refined Cleansing. Everyday Confidence.",
+    "tags": [
+      "Active-Infused",
+      "Botanical",
+      "Advanced Scalp Care"
+    ]
+  },
+  {
+    "slug": "velvera-shampoo",
+    "name": "Velvera Shampoo",
+    "subtitle": "Hydrating Botanical Hair Cleanser",
+    "category": "Shampoo",
+    "size": "100 ml",
+    "mrp": 999,
+    "price": 999,
+    "stock": 100,
+    "featured": false,
+    "sortOrder": 6,
+    "image": "/uploads/products/velvera-shampoo.jpg",
+    "tagline": "Indulge in silken hair.",
+    "highlight": "Panthenol · Cucumber · Amla",
+    "shortDescription": "A hydrating cleanser with Panthenol, Glycerine, Cucumber, Aloe Vera, Vetiver and Amla that cleans gently and leaves hair soft, light and manageable.",
+    "intro": "VELVERA SHAMPOO combines modern cleansing technology, moisture-supporting ingredients and botanical extracts to transform your everyday wash into a premium hair-care ritual.",
+    "benefits": [
+      {
+        "title": "Advanced Cleansing Technology",
+        "body": "A carefully designed cleansing system helps remove accumulated oil, dirt, sweat and everyday impurities, leaving hair feeling clean, light and ready for styling."
+      },
+      {
+        "title": "Moisture-Enriched Hair Care",
+        "body": "Vegetable Glycerine acts as a humectant, helping attract and retain moisture, while Panthenol contributes conditioning properties that support softer-feeling, more manageable hair."
+      },
+      {
+        "title": "Botanical Freshness",
+        "body": "Cucumber Extract and Aloe Vera Hydrosol bring a botanical dimension, Vetiver adds character, and Amla Extract adds a traditional herbal touch."
+      },
+      {
+        "title": "Softness & Hair-Fibre Conditioning",
+        "body": "Panthenol and moisture-supporting ingredients help improve the feel and manageability of hair, leaving it smoother, softer and easier to handle."
+      },
+      {
+        "title": "A Refreshing Scalp-Care Experience",
+        "body": "Effective cleansing helps remove excess oil and everyday buildup from the scalp — a balanced approach to routine hair hygiene."
+      },
+      {
+        "title": "The Velvera Experience",
+        "body": "Every wash becomes an opportunity to refresh your scalp, cleanse your strands and enjoy the confidence of a well-maintained routine."
+      }
+    ],
+    "ingredients": [
+      "DM Water",
+      "Vegetable Glycerine",
+      "Panthenol",
+      "Sodium Laureth Sulfate",
+      "Cucumber Extract",
+      "Phenoxyethanol",
+      "PEG-150",
+      "EDTA",
+      "Vetiver Extract",
+      "CAPB",
+      "Aloe Vera Hydrosol",
+      "CDEA",
+      "Alpha Olefin Sulfonate",
+      "Amla Extract",
+      "Fragrance Oil"
+    ],
+    "closingTitle": "Clean hair. Soft texture. Everyday elegance.",
+    "closingBody": "Make every wash a moment of care with a shampoo designed to bring cleansing, moisture support and botanical inspiration together.",
+    "signature": "VELVERA SHAMPOO — The Elegance of Clean. The Comfort of Care.",
+    "tags": [
+      "Active-Infused",
+      "Botanical",
+      "Nourishing",
+      "Daily Care"
+    ]
+  },
+  {
+    "slug": "velvera-hair-butter",
+    "name": "Velvera Hair Butter",
+    "subtitle": "Advanced Hair Conditioning & Smoothening Treatment",
+    "category": "Conditioner",
+    "size": "",
+    "mrp": 1999,
+    "price": 1999,
+    "stock": 100,
+    "featured": false,
+    "sortOrder": 7,
+    "image": "/uploads/products/velvera-hair-butter.jpg",
+    "tagline": "Smooth every strand. Nourish every fibre.",
+    "highlight": "Argan · Avocado · Castor",
+    "shortDescription": "A luxurious conditioning butter with Argan, Avocado and Castor Oils and BTMS-50 for silky smoothness, frizz control and effortless detangling.",
+    "intro": "VELVERA HAIR BUTTER is a luxurious conditioning formulation that transforms the feel of your hair through advanced conditioning technology and a rich blend of nourishing oils.",
+    "benefits": [
+      {
+        "title": "Advanced Hair Conditioning",
+        "body": "BTMS-50 helps improve hair softness, reduce static and make strands easier to detangle. With Cetyl Alcohol, it creates a rich conditioning texture."
+      },
+      {
+        "title": "Intensive Hair Smoothening",
+        "body": "Argan, Avocado and Castor Oils help lubricate the hair fibre and improve its surface feel, reducing friction between strands for a smoother, softer finish."
+      },
+      {
+        "title": "Frizz Control & Manageability",
+        "body": "By coating and conditioning the hair surface, the formulation helps improve manageability and reduce the appearance of frizz associated with dryness."
+      },
+      {
+        "title": "Lipid-Rich Hair Nourishment",
+        "body": "Avocado and Argan Oils contribute fatty acids and naturally occurring lipids that help soften dry hair and improve flexibility."
+      },
+      {
+        "title": "Moisture Support & Softness",
+        "body": "Vegetable Glycerine and Propylene Glycol function as humectants, helping attract and retain moisture under suitable conditions."
+      },
+      {
+        "title": "Detangling & Breakage Care",
+        "body": "The conditioning system helps reduce friction during combing and detangling, reducing grooming-related mechanical stress."
+      },
+      {
+        "title": "Shine & Luxurious Finish",
+        "body": "Castor Oil, Argan Oil and Beeswax contribute emollient and film-forming properties that help improve the appearance of shine."
+      }
+    ],
+    "ingredients": [
+      "DM Water",
+      "Castor Oil",
+      "Vegetable Glycerine",
+      "Avocado Oil",
+      "Argan Oil",
+      "Beeswax",
+      "Cetyl Alcohol",
+      "Vitamin E Oil",
+      "BTMS-50",
+      "Propylene Glycol",
+      "Phenoxyethanol",
+      "Fragrance Oil"
+    ],
+    "closingTitle": "Your hair, reimagined through conditioning science.",
+    "closingBody": "Turn every wash-day routine into a luxurious experience — from effortless detangling to silky softness and a beautifully smooth finish.",
+    "signature": "VELVERA HAIR BUTTER — Where Advanced Conditioning Meets the Art of Smoothness.",
+    "tags": [
+      "Active-Infused",
+      "Nourishing",
+      "Conditioning",
+      "Smoothening Care"
+    ]
+  }
+]
