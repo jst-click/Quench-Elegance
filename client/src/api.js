@@ -1,4 +1,4 @@
-const TOKEN_KEYS = { customer: 'qe_token', admin: 'qe_admin_token' };
+const TOKEN_KEYS = { customer: 'qe_token' };
 
 export const tokens = {
   get: (kind) => {
@@ -43,18 +43,6 @@ export const api = {
   post: (url, body, opts) => request('POST', url, body, opts),
   put: (url, body, opts) => request('PUT', url, body, opts),
   del: (url, opts) => request('DELETE', url, null, opts),
-};
-
-export const adminApi = {
-  get: (url) => request('GET', `/api/admin${url}`, null, { auth: 'admin' }),
-  post: (url, body) => request('POST', `/api/admin${url}`, body, { auth: 'admin' }),
-  put: (url, body) => request('PUT', `/api/admin${url}`, body, { auth: 'admin' }),
-  del: (url) => request('DELETE', `/api/admin${url}`, null, { auth: 'admin' }),
-  upload: (file) => {
-    const fd = new FormData();
-    fd.append('image', file);
-    return request('POST', '/api/admin/upload', fd, { auth: 'admin', isForm: true });
-  },
 };
 
 export const inr = (n) =>

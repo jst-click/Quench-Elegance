@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Banknote, CheckCircle2, MapPin } from 'lucide-react';
 import { api, inr } from '../api';
-import { useAuth, useCart, useToast } from '../context/AppContext';
+import { lineKey, useAuth, useCart, useToast } from '../context/AppContext';
 import { Loader } from '../components/ui';
 
 const STATES = ['Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Ladakh', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'];
@@ -63,7 +63,7 @@ export default function Checkout() {
     setPlacing(true);
     try {
       const d = await api.post('/api/orders', {
-        items: items.map((i) => ({ productId: i.productId, qty: i.qty })),
+        items: items.map((i) => (i.comboId ? { comboId: i.comboId, qty: i.qty } : { productId: i.productId, qty: i.qty })),
         address,
         notes,
         saveAddress: selected === 'new' && save,
@@ -142,7 +142,7 @@ export default function Checkout() {
             <h3>Order summary</h3>
             <div className="summary-items">
               {items.map((i) => (
-                <div key={i.productId} className="summary-item">
+                <div key={lineKey(i)} className="summary-item">
                   <div className="summary-item-img"><img src={i.image} alt="" /><span>{i.qty}</span></div>
                   <div className="summary-item-name">{i.name}<small>{i.size}</small></div>
                   <span>{inr(i.price * i.qty)}</span>

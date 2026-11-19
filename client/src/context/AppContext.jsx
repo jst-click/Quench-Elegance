@@ -49,6 +49,9 @@ export function AuthProvider({ children }) {
 export const useAuth = () => useContext(AuthCtx);
 
 /* ---------------- Cart ---------------- */
+// A cart line is a product ({productId}) or a combo kit ({comboId, type: 'combo'}).
+export const lineKey = (i) => (i.comboId ? `combo:${i.comboId}` : i.productId);
+export const lineHref = (i) => (i.comboId ? `/combo/${i.slug}` : `/product/${i.slug}`);
 const CartCtx = createContext(null);
 const CART_KEY = 'qe_cart';
 const readCart = () => {
@@ -62,22 +65,29 @@ export function CartProvider({ children }) {
     try { localStorage.setItem(CART_KEY, JSON.stringify(items)); } catch { /* ignore */ }
   }, [items]);
 
-  const add = (p, qty = 1) => {
+  const addLine = (line, qty) => {
+    const key = lineKey(line);
     setItems((list) => {
-      const found = list.find((i) => i.productId === p.id);
-      if (found) return list.map((i) => (i.productId === p.id ? { ...i, qty: Math.min(20, i.qty + qty) } : i));
-      return [...list, { productId: p.id, slug: p.slug, name: p.name, subtitle: p.subtitle, image: p.image, price: p.price, mrp: p.mrp, size: p.size, qty }];
+      const found = list.find((i) => lineKey(i) === key);
+      if (found) return list.map((i) => (lineKey(i) === key ? { ...i, ...line, qty: Math.min(20, i.qty + qty) } : i));
+      return [...list, { ...line, qty }];
     });
     setOpen(true);
   };
-  const setQty = (id, qty) => setItems((l) => (qty <= 0 ? l.filter((i) => i.productId !== id) : l.map((i) => (i.productId === id ? { ...i, qty: Math.min(20, qty) } : i))));
-  const remove = (id) => setItems((l) => l.filter((i) => i.productId !== id));
+  const add = (p, qty = 1) => addLine({ productId: p.id, slug: p.slug, name: p.name, subtitle: p.subtitle, image: p.image, price: p.price, mrp: p.mrp, size: p.size }, qty);
+  const addCombo = (c, qty = 1) => addLine({
+    type: 'combo', comboId: c.id, slug: c.slug, name: c.name, subtitle: c.tagline, image: c.image || c.banner, price: c.price, mrp: c.mrp,
+    size: `Kit · ${c.unitCount} item${c.unitCount === 1 ? '' : 's'}`,
+  }, qty);
+  // key = lineKey(item)
+  const setQty = (key, qty) => setItems((l) => (qty <= 0 ? l.filter((i) => lineKey(i) !== key) : l.map((i) => (lineKey(i) === key ? { ...i, qty: Math.min(20, qty) } : i))));
+  const remove = (key) => setItems((l) => l.filter((i) => lineKey(i) !== key));
   const clear = () => setItems([]);
   const count = items.reduce((s, i) => s + i.qty, 0);
   const subtotal = items.reduce((s, i) => s + i.qty * i.price, 0);
 
   return (
-    <CartCtx.Provider value={{ items, add, setQty, remove, clear, count, subtotal, open, setOpen }}>
+    <CartCtx.Provider value={{ items, add, addCombo, setQty, remove, clear, count, subtotal, open, setOpen }}>
       {children}
     </CartCtx.Provider>
   );

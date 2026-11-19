@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/* =========================================================
+   Quench Elegance Admin — design tokens
+   Same palette as the storefront (client/src/styles/base.css):
+   silver backgrounds · black ink · dark-brown theme · bronze/gold accents
+   ========================================================= */
+@theme {
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Silver family — client palette: Light #F5F5F5 · Soft Grey #EAEAEA · Silver #E4E4E4 · Grey #D0D0D0 */
+  --color-silver-50: #f7f7f7;
+  --color-silver-100: #f0f0f0;
+  --color-silver-200: #e4e4e4;
+  --color-silver-300: #d0d0d0;
+  --color-silver-400: #b8b8b8;
+  --color-silver-500: #999999;
+  --color-bg-light: #f5f5f5;
+  --color-bg-soft: #eaeaea;
+
+  /* Text */
+  --color-ink: #111111;
+  --color-ink-2: #2b2b2b;
+  --color-muted: #5d5a57;
+
+  /* Dark brown theme */
+  --color-brown-950: #1e110a;
+  --color-brown-900: #2a170d;
+  --color-brown-800: #3b2314;
+  --color-brown-700: #55331e;
+  --color-brown-600: #6e452b;
+  --color-bronze: #a87445;
+  --color-gold: #c9995c;
+  --color-gold-soft: #e6c896;
+  --color-cream: #f3e5cc;
+
+  /* Feedback */
+  --color-danger: #a3261b;
+  --color-success: #2f6b3a;
+  --color-warning: #9a6a12;
+
+  --shadow-soft: 0 1px 2px rgba(30, 17, 10, 0.06), 0 2px 8px rgba(30, 17, 10, 0.05);
+  --shadow-card: 0 10px 30px -12px rgba(30, 17, 10, 0.25);
+  --shadow-lift: 0 30px 60px -25px rgba(30, 17, 10, 0.45);
+
+  --animate-fade-up: fade-up .3s ease both;
+  --animate-pop: pop .2s ease both;
+  @keyframes fade-up { from { opacity: 0; transform: translateY(8px); } }
+  @keyframes pop { from { opacity: 0; transform: scale(.97); } }
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply font-sans text-ink antialiased;
+    background: #eaeaea;
+  }
+  /* Brushed-silver backdrop, the same header image the storefront uses, washed lighter for readability */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(rgba(255, 255, 255, .55), rgba(255, 255, 255, .55)),
+      url('/admin/images/brand/header-silver.png') center / 100% 100% no-repeat,
+      linear-gradient(120deg, #d3d3d3 0%, #efefef 20%, #d9d9d9 38%, #f4f4f4 50%, #dfdfdf 60%, #d0d0d0 75%, #b6b6b6 85%, #bcbcbc 100%);
+  }
+  h1, h2, h3 { @apply font-display font-semibold tracking-tight text-ink; }
+  /* Cormorant defaults to old-style figures ("o1"); use lining figures everywhere numbers are shown */
+  h1, h2, h3, .font-display { font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
+  ::selection { background: var(--color-brown-800); color: #fff; }
+  :focus-visible { outline: 2px solid var(--color-bronze); outline-offset: 2px; }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+}
+
+@layer components {
+  /* Cards */
+  .card { @apply rounded-2xl border border-white/80 bg-white/75 shadow-soft backdrop-blur-sm; }
+  .card-pad { @apply p-5 sm:p-6; }
+  .card-title { @apply font-display text-xl font-semibold text-ink; }
+
+  /* Buttons */
+  .btn, .btn-primary, .btn-gold, .btn-outline, .btn-ghost, .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-[13px] font-medium tracking-wide transition duration-200 disabled:opacity-55;
+  }
+  .btn-primary { @apply bg-brown-800 text-white shadow-[0_8px_20px_-8px_rgba(59,35,20,.7)] hover:bg-brown-900 enabled:hover:-translate-y-px; }
+  .btn-gold { @apply bg-linear-to-br from-[#d8b07a] to-[#b8834c] text-brown-950 hover:brightness-105; }
+  .btn-outline { @apply border border-brown-800/70 text-brown-800 hover:bg-brown-800 hover:text-white; }
+  .btn-ghost { @apply text-ink-2 hover:bg-brown-800/8; }
+  .btn-danger { @apply border border-danger/40 text-danger hover:bg-danger hover:text-white; }
+  .btn-sm { @apply px-3.5 py-1.5 text-xs; }
+  .icon-btn { @apply inline-grid size-9 place-items-center rounded-full text-ink-2 transition hover:bg-brown-800/8 disabled:opacity-40; }
+
+  /* Forms */
+  .label { @apply mb-1.5 block text-[13px] font-medium text-ink-2; }
+  .input { @apply w-full rounded-xl border border-silver-400/80 bg-white/80 px-3.5 py-2.5 text-sm text-ink transition placeholder:text-silver-500 focus:border-brown-700 focus:bg-white focus:outline-none focus:ring-3 focus:ring-brown-700/15 disabled:opacity-60; }
+  textarea.input { @apply min-h-24 resize-y; }
+  .hint { @apply mt-1 text-xs text-muted; }
+
+  /* Tables */
+  .table { @apply w-full text-left text-sm; }
+  .table thead th { @apply whitespace-nowrap border-b border-silver-200 bg-silver-50/80 px-4 py-3 text-[11px] font-semibold uppercase tracking-[.12em] text-muted; }
+  .table tbody td { @apply border-b border-silver-200/70 px-4 py-3.5 align-middle; }
+  .table tbody tr { @apply transition-colors; }
+  .table tbody tr:hover { @apply bg-cream/35; }
+  .table tbody tr:last-child td { @apply border-b-0; }
+
+  .eyebrow { @apply text-[11px] font-medium uppercase tracking-[.28em] text-bronze; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full border border-silver-300 bg-white/70 px-3.5 py-1.5 text-[13px] font-medium text-ink-2 transition hover:border-brown-700; }
+  .chip-active { @apply border-brown-800 bg-brown-800 text-white hover:border-brown-800; }
+  .link { @apply font-medium text-brown-700 underline-offset-4 hover:underline; }
+}
+
+/* Thin, quiet scrollbars */
+* { scrollbar-width: thin; scrollbar-color: #c4c0bc transparent; }
+
+@media print {
+  body::before, .no-print { display: none !important; }
+  body { background: #fff; }
+  .card { box-shadow: none; border-color: #ddd; background: #fff; }
+}

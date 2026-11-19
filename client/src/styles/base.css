@@ -1,12 +1,30 @@
 /* ============ Design tokens ============ */
 :root {
-  /* Silver background family */
-  --silver-50: #f7f7f6;
-  --silver-100: #efefed;
-  --silver-200: #e3e3e0;
-  --silver-300: #d2d2ce;
-  --silver-400: #b9b9b4;
-  --silver-500: #9a9a95;
+  /* Silver background family — client palette: Light #F5F5F5 · Soft Grey #EAEAEA · Silver #E4E4E4 · Grey #D0D0D0 */
+  --bg-light: #f5f5f5;
+  --bg-soft: #eaeaea;
+  --bg-silver: #e4e4e4;
+  --bg-grey: #d0d0d0;
+
+  --silver-50: #f7f7f7;
+  --silver-100: #f0f0f0;
+  --silver-200: #e4e4e4;
+  --silver-300: #d0d0d0;
+  --silver-400: #b8b8b8;
+  --silver-500: #999999;
+
+  /* Brushed silver, measured from the client's header image (header-silver.png):
+     same colour sequence left→right and the same streak slant (~120deg). */
+  --silver-bg: linear-gradient(120deg,
+      #d3d3d3 0%, #dddddd 10%, #efefef 20%, #f3f3f3 25%, #e9e9e9 30%,
+      #d9d9d9 38%, #eaeaea 45%, #f4f4f4 50%, #e4e4e4 55%, #dfdfdf 60%,
+      #e4e4e4 65%, #d0d0d0 75%, #c5c5c5 80%, #b6b6b6 85%, #b2b2b2 90%, #bcbcbc 100%);
+  /* Full-page backdrop used by body::before (every site and admin page): the SAME image as the header,
+     stretched to the whole screen (100% 100%) so its left→right colours line up with the header's.
+     The gradient underneath only shows while the image loads. */
+  --silver-page: var(--silver-white), url('/images/brand/header-silver.png') center / 100% 100% no-repeat, var(--silver-bg);
+  /* Soft white wash over the silver (page + header) to make it lighter; raise .3 for whiter, lower for darker */
+  --silver-white: linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,.3));
 
   /* Text */
   --ink: #111111;
@@ -36,7 +54,7 @@
   --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-body: 'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --silver-sheen: linear-gradient(135deg, #f4f4f2 0%, #dcdcd8 28%, #f2f2f0 52%, #d4d4cf 78%, #ececea 100%);
+  --silver-sheen: linear-gradient(135deg, #f5f5f5 0%, #dcdcdc 28%, #f2f2f2 52%, #d0d0d0 78%, #eaeaea 100%);
   --brown-sheen: linear-gradient(135deg, #2a170d 0%, #4a2b18 45%, #2a170d 100%);
   --gold-line: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
@@ -54,11 +72,19 @@ body {
   font-size: 16px;
   line-height: 1.65;
   color: var(--ink);
-  background: var(--silver-200);
-  background-image: linear-gradient(180deg, #ededeb 0%, #e2e2df 40%, #e9e9e6 100%);
-  background-attachment: fixed;
+  background: var(--bg-soft);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/* Fixed silver backdrop (a fixed layer instead of background-attachment: fixed, which iOS ignores) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--silver-page);
 }
 
 img { max-width: 100%; display: block; }

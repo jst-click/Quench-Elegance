@@ -1,5 +1,6 @@
 node_modules/
 client/dist/
+admin/dist/
 backend/.venv/
 backend/.env
 __pycache__/

@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     otp_expiry_minutes: int = 5
     otp_max_attempts: int = 5
     otp_resend_seconds: int = 30
+    otp_master_code: str = ""  # optional fixed OTP accepted for every registered number (leave empty to disable)
 
     fast2sms_api_key: str = ""
     fast2sms_route: str = "otp"  # otp | dlt
@@ -45,7 +46,9 @@ settings = Settings()
 
 UPLOAD_DIR = BASE_DIR / "uploads"
 PRODUCT_UPLOAD_DIR = UPLOAD_DIR / "products"
+CHAT_UPLOAD_DIR = UPLOAD_DIR / "chat"
 CLIENT_DIST = BASE_DIR.parent / "client" / "dist"
+ADMIN_DIST = BASE_DIR.parent / "admin" / "dist"
 
 if settings.is_prod and settings.jwt_secret == "dev-only-secret-change-me":
     raise RuntimeError("Set JWT_SECRET in backend/.env before running in production.")

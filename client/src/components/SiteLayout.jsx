@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { ChevronDown, Instagram, Mail, MapPin, Menu, Minus, Phone, Plus, ShoppingBag, Trash2, User, X } from 'lucide-react';
-import { useAuth, useCart } from '../context/AppContext';
+import { ChevronDown, Instagram, Mail, MapPin, Menu, MessageCircle, Minus, Phone, Plus, ShoppingBag, Trash2, User, X } from 'lucide-react';
+import { lineHref, lineKey, useAuth, useCart } from '../context/AppContext';
 import { BRAND, whatsappLink } from '../content';
-import { inr } from '../api';
+import { api, inr } from '../api';
 
 const ABOUT_LINKS = [
   { to: '/about', label: 'About Us' },
@@ -13,13 +13,22 @@ const ABOUT_LINKS = [
 ];
 
 function Header() {
-  const { count, setOpen } = useCart();
   const { customer } = useAuth();
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
 
   useEffect(() => setMenu(false), [pathname]);
+
+  // unread replies from the team, shown on the header chat icon
+  const [chatUnread, setChatUnread] = useState(0);
+  useEffect(() => {
+    if (!customer) { setChatUnread(0); return undefined; }
+    const load = () => document.visibilityState === 'visible' && api.get('/api/chat/unread').then((d) => setChatUnread(d.unread)).catch(() => {});
+    load();
+    const t = setInterval(load, 20000);
+    return () => clearInterval(t);
+  }, [customer, pathname]);
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 12);
     on();
@@ -62,13 +71,15 @@ function Header() {
             <NavLink to="/contact">Contact</NavLink>
           </nav>
           <div className="header-actions">
+            {customer && (
+              <Link to="/account?tab=chats" className="icon-btn" aria-label={`Chats${chatUnread ? `, ${chatUnread} unread` : ''}`} title="Chat with us">
+                <MessageCircle size={20} />
+                {chatUnread > 0 && <span className="cart-count">{chatUnread}</span>}
+              </Link>
+            )}
             <Link to={customer ? '/account' : '/login'} className="icon-btn" aria-label="Account" title={customer ? customer.name : 'Login'}>
               <User size={20} />
             </Link>
-            <button className="icon-btn cart-btn" onClick={() => setOpen(true)} aria-label={`Bag, ${count} items`}>
-              <ShoppingBag size={20} />
-              {count > 0 && <span className="cart-count">{count}</span>}
-            </button>
           </div>
         </div>
       </header>
@@ -124,20 +135,20 @@ function CartDrawer() {
           <>
             <div className="drawer-items">
               {items.map((i) => (
-                <div className="drawer-item" key={i.productId}>
-                  <Link to={`/product/${i.slug}`} onClick={() => setOpen(false)} className="drawer-item-img"><img src={i.image} alt="" /></Link>
+                <div className="drawer-item" key={lineKey(i)}>
+                  <Link to={lineHref(i)} onClick={() => setOpen(false)} className="drawer-item-img"><img src={i.image} alt="" /></Link>
                   <div className="drawer-item-info">
-                    <Link to={`/product/${i.slug}`} onClick={() => setOpen(false)} className="drawer-item-name">{i.name}</Link>
+                    <Link to={lineHref(i)} onClick={() => setOpen(false)} className="drawer-item-name">{i.comboId && <span className="kit-badge">Kit</span>}{i.name}</Link>
                     <span className="drawer-item-sub">{i.size || i.subtitle}</span>
                     <div className="qty qty-sm">
-                      <button onClick={() => setQty(i.productId, i.qty - 1)} aria-label="Decrease"><Minus size={14} /></button>
+                      <button onClick={() => setQty(lineKey(i), i.qty - 1)} aria-label="Decrease"><Minus size={14} /></button>
                       <span>{i.qty}</span>
-                      <button onClick={() => setQty(i.productId, i.qty + 1)} aria-label="Increase"><Plus size={14} /></button>
+                      <button onClick={() => setQty(lineKey(i), i.qty + 1)} aria-label="Increase"><Plus size={14} /></button>
                     </div>
                   </div>
                   <div className="drawer-item-right">
                     <strong>{inr(i.price * i.qty)}</strong>
-                    <button className="icon-btn sm" onClick={() => remove(i.productId)} aria-label="Remove"><Trash2 size={16} /></button>
+                    <button className="icon-btn sm" onClick={() => remove(lineKey(i))} aria-label="Remove"><Trash2 size={16} /></button>
                   </div>
                 </div>
               ))}
@@ -174,6 +185,7 @@ function Footer() {
           <div className="footer-col">
             <h4>Shop</h4>
             <Link to="/shop">All Products</Link>
+            <Link to="/#kits">Combo Kits</Link>
             <Link to="/shop?category=Hair%20Oil">Hair Oil</Link>
             <Link to="/shop?category=Hair%20Serum">Hair Serums</Link>
             <Link to="/shop?category=Scalp%20Care">Scalp Care</Link>

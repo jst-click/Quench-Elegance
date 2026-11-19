@@ -9,6 +9,7 @@ from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from ..config import settings
+from ..consultation import FORM, clean_client_submission
 from ..database import get_db
 from ..models import Customer, Otp, RegistrationRequest
 from ..security import create_token, current_customer, hash_secret, verify_secret
@@ -41,10 +42,7 @@ class VerifyIn(BaseModel):
 
 
 class RegisterIn(BaseModel):
-    name: str = ""
-    phone: str = ""
-    email: str = ""
-    city: str = ""
+    consultation: dict = {}  # {answers: {sectionId: {fieldId: value}}, skipped: [sectionId]}
     message: str = ""
 
 
@@ -101,6 +99,8 @@ def request_otp(body: PhoneIn, db: Session = Depends(get_db)):
 
     customer = db.scalar(select(Customer).where(Customer.phone == phone))
     if not customer:
+        if db.scalar(select(RegistrationRequest).where(RegistrationRequest.phone == phone, RegistrationRequest.status == "pending")):
+            raise ApiError(403, "Your registration is being reviewed by our consultant. You can log in once it is approved.", code="PENDING_APPROVAL")
         raise ApiError(404, "This mobile number is not registered with Quench Elegance yet.", code="NOT_REGISTERED")
     if not customer.active:
         raise ApiError(403, "Your account is inactive. Please contact Quench Elegance.", code="INACTIVE")
@@ -118,21 +118,28 @@ def request_otp(body: PhoneIn, db: Session = Depends(get_db)):
     db.add(Otp(phone=phone, otp_hash=hash_secret(otp, rounds=6), expires_at=now + timedelta(minutes=settings.otp_expiry_minutes)))
     db.commit()
 
+    sms_error = None
     try:
         send_otp(phone, otp)
     except SmsError as e:
         print(f"[otp] send failed: {e}", flush=True)
-        db.execute(delete(Otp).where(Otp.phone == phone))
-        db.commit()
-        raise ApiError(502, "We could not send the OTP right now. Please try again shortly.")
+        if not settings.otp_dev_mode:
+            db.execute(delete(Otp).where(Otp.phone == phone))
+            db.commit()
+            raise ApiError(502, "We could not send the OTP right now. Please try again shortly.")
+        # testing only: keep the OTP usable (it is shown on screen) so login still works while SMS is being set up
+        sms_error = str(e)
+        print(f"[OTP] {phone} -> {otp}  (dev mode fallback)", flush=True)
 
     res = {
-        "message": f"OTP sent to +91 {phone[:2]}XXXXXX{phone[-2:]}",
+        "message": f"OTP sent to +91 {phone[:2]}XXXXXX{phone[-2:]}" if not sms_error else "SMS could not be sent (test mode).",
         "expiresInSeconds": settings.otp_expiry_minutes * 60,
         "resendInSeconds": settings.otp_resend_seconds,
     }
     if settings.otp_dev_mode:
         res["devOtp"] = otp
+        if sms_error:
+            res["smsError"] = sms_error
     return res
 
 
@@ -145,6 +152,23 @@ def verify_otp(body: VerifyIn, db: Session = Depends(get_db)):
         raise ApiError(400, "Enter the 6-digit OTP.")
 
     record = db.scalar(select(Otp).where(Otp.phone == phone))
+    master = settings.otp_master_code.strip()
+    if master and re.fullmatch(r"\d{6}", master) and secrets.compare_digest(code, master):
+        # default OTP (OTP_MASTER_CODE): works alongside the real SMS OTP, for registered active customers only
+        if record:
+            db.delete(record)
+        customer = db.scalar(select(Customer).where(Customer.phone == phone))
+        if not customer:
+            db.commit()
+            raise ApiError(404, "This mobile number is not registered with Quench Elegance yet.", code="NOT_REGISTERED")
+        if not customer.active:
+            db.commit()
+            raise ApiError(403, "Account unavailable. Please contact us.")
+        customer.last_login_at = datetime.now(timezone.utc)
+        db.commit()
+        print(f"[otp] {phone[:2]}XXXXXX{phone[-2:]} logged in with the default OTP", flush=True)
+        return {"token": create_token(customer.id, "customer", hours=24 * 30), "customer": public_customer(customer)}
+
     if not record:
         raise ApiError(400, "OTP not found or expired. Please request a new one.")
     if record.expires_at < datetime.now(timezone.utc):
@@ -170,20 +194,32 @@ def verify_otp(body: VerifyIn, db: Session = Depends(get_db)):
     return {"token": create_token(customer.id, "customer", hours=24 * 30), "customer": public_customer(customer)}
 
 
+@router.get("/consultation-form")
+def consultation_form():
+    """The Hair & Scalp consultation the registration wizard renders (client sections only)."""
+    return {"sections": [sec for sec in FORM if sec["audience"] == "client"]}
+
+
 @router.post("/register-request", dependencies=[Depends(otp_limiter)])
 def register_request(body: RegisterIn, db: Session = Depends(get_db)):
-    """Visitors whose number isn't registered can ask to be registered; admin approves it."""
-    phone = normalize_phone(body.phone)
-    name = clip(body.name, 80)
-    if not phone or not name:
-        raise ApiError(400, "Name and a valid mobile number are required.")
+    """New customers register by completing the consultation; an admin reviews and approves it."""
+    consultation = clean_client_submission(body.consultation)
+    personal = consultation["answers"]["personal"]
+    phone = personal["mobile"]
     if db.scalar(select(Customer).where(Customer.phone == phone)):
-        raise ApiError(409, "This number is already registered. Please log in with OTP.")
-    if db.scalar(select(RegistrationRequest).where(RegistrationRequest.phone == phone, RegistrationRequest.status == "pending")):
-        return {"message": "Your request is already with our team. We will contact you shortly."}
-    db.add(RegistrationRequest(name=name, phone=phone, email=clip(body.email, 120), city=clip(body.city, 80), message=clip(body.message, 500)))
+        raise ApiError(409, "This number is already registered. Please log in with OTP.", code="ALREADY_REGISTERED")
+    pending = db.scalar(select(RegistrationRequest).where(RegistrationRequest.phone == phone, RegistrationRequest.status == "pending"))
+    fields = dict(
+        name=clip(personal["fullName"], 80), email=clip(personal.get("email"), 120), city=clip(personal.get("city"), 80),
+        message=clip(body.message, 500), consultation=consultation,
+    )
+    if pending:  # resubmitting replaces the earlier answers instead of creating a duplicate request
+        for k, v in fields.items():
+            setattr(pending, k, v)
+    else:
+        db.add(RegistrationRequest(phone=phone, **fields))
     db.commit()
-    return {"message": "Thank you! Our team will verify your details and activate your account shortly."}
+    return {"message": "Thank you! Our consultant will review your consultation and activate your account shortly."}
 
 
 @router.get("/me")

@@ -1,34 +1,43 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ChevronRight, Leaf, Minus, Plus, ShieldCheck, Truck, MessageCircle } from 'lucide-react';
-import { api } from '../api';
-import { useCart } from '../context/AppContext';
+import { ChevronRight, Leaf, ShieldCheck, Truck, MessageCircle, MessagesSquare } from 'lucide-react';
+import { api, inr } from '../api';
+import { useAuth } from '../context/AppContext';
 import { whatsappLink } from '../content';
 import { Loader, Price, ProductCard, Reveal } from '../components/ui';
 
 export default function ProductDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { add } = useCart();
+  const { customer } = useAuth();
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
+  const [kits, setKits] = useState([]);
   const [error, setError] = useState('');
-  const [qty, setQty] = useState(1);
   const [active, setActive] = useState(0);
   const [showAllIng, setShowAllIng] = useState(false);
 
   useEffect(() => {
-    setProduct(null); setError(''); setQty(1); setActive(0); setShowAllIng(false);
+    setProduct(null); setError(''); setActive(0); setShowAllIng(false);
     api.get(`/api/products/${slug}`).then((d) => {
       setProduct(d.product);
       document.title = `${d.product.name} — Quench Elegance`;
     }).catch((e) => setError(e.message));
     api.get('/api/products').then((d) => setRelated(d.products.filter((p) => p.slug !== slug).slice(0, 4))).catch(() => {});
+    // combo kits that include this product
+    api.get('/api/combos').then((d) => setKits(d.combos.filter((c) => c.items.some((i) => i.slug === slug)))).catch(() => setKits([]));
     return () => { document.title = 'Quench Elegance — Luxury Hair Care, Affordable for Everyone'; };
   }, [slug]);
 
   if (error) return <div className="container section"><div className="empty-state"><h3>Product not found</h3><p>{error}</p><Link className="btn btn-primary" to="/shop">Back to shop</Link></div></div>;
   if (!product) return <Loader />;
+
+  // Buying happens through a chat with our team: logged-in customers go straight to the chat with
+  // this product attached; everyone else logs in first and is brought back to the same chat.
+  const buyNow = () => {
+    const chat = `/account?tab=chats&product=${encodeURIComponent(product.slug)}`;
+    navigate(customer ? chat : `/login?next=${encodeURIComponent(chat)}`);
+  };
 
   const images = [product.image, ...(product.gallery || [])].filter(Boolean);
   const out = product.stock <= 0;
@@ -57,7 +66,7 @@ export default function ProductDetail() {
         </div>
 
         <div className="pdp-info">
-          <span className="eyebrow">{product.category}</span>
+          <span className="eyebrow">{[product.category, product.subcategory].filter(Boolean).join(' · ')}</span>
           <h1>{product.name}</h1>
           <p className="pdp-subtitle">{product.subtitle}</p>
           {product.tagline && <p className="pdp-tagline">“{product.tagline}”</p>}
@@ -66,18 +75,28 @@ export default function ProductDetail() {
           <p className="pdp-desc">{product.shortDescription}</p>
 
           <div className="pdp-buy">
-            <div className="qty">
-              <button onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Decrease quantity"><Minus size={16} /></button>
-              <span>{qty}</span>
-              <button onClick={() => setQty((q) => Math.min(20, q + 1))} aria-label="Increase quantity"><Plus size={16} /></button>
-            </div>
-            <button className="btn btn-outline" disabled={out} onClick={() => add(product, qty)}>{out ? 'Out of stock' : 'Add to bag'}</button>
-            <button className="btn btn-primary" disabled={out} onClick={() => { add(product, qty); navigate('/checkout'); }}>Buy now</button>
+            <button className="btn btn-primary" disabled={out} onClick={buyNow}>
+              <MessagesSquare size={17} /> {out ? 'Out of stock' : 'Buy now'}
+            </button>
           </div>
+          {!out && <p className="pdp-buy-note">Tap Buy now to chat with our team. They'll confirm your order, quantity and delivery.</p>}
+
+          {kits.length > 0 && (
+            <div className="pdp-kits">
+              <p className="pdp-kits-title">Save with a kit</p>
+              {kits.map((k) => (
+                <Link key={k.id} to={`/combo/${k.slug}`} className="pdp-kit">
+                  <img src={k.image || k.banner} alt="" />
+                  <span><strong>{k.name}</strong>{k.tagline}</span>
+                  <b>{inr(k.price)}{k.savingsPercent > 0 ? ` · ${k.savingsPercent}% off` : ''}</b>
+                </Link>
+              ))}
+            </div>
+          )}
 
           <ul className="pdp-assure">
             <li><Truck size={18} /> Cash on delivery available</li>
-            <li><ShieldCheck size={18} /> Registered customers checkout securely with mobile OTP</li>
+            <li><ShieldCheck size={18} /> Registered customers log in securely with mobile OTP</li>
             <li><Leaf size={18} /> Non-medicated, external hair & scalp care</li>
           </ul>
 

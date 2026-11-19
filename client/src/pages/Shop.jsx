@@ -17,26 +17,45 @@ export default function Shop() {
   const [products, setProducts] = useState(null);
   const [error, setError] = useState('');
   const category = params.get('category') || '';
+  const sub = params.get('sub') || '';
+  const [tree, setTree] = useState(null);
   const sort = params.get('sort') || 'featured';
   const [q, setQ] = useState('');
 
   useEffect(() => {
     api.get('/api/products').then((d) => setProducts(d.products)).catch((e) => setError(e.message));
+    // admin-managed categories (order + subcategories); falls back to the built-in list if unavailable
+    api.get('/api/categories', { auth: null }).then((d) => setTree(d.categories)).catch(() => setTree([]));
   }, []);
 
+  // only show categories that currently have products, in the order set in the admin panel
   const cats = useMemo(() => {
     const present = new Set((products || []).map((p) => p.category));
-    const ordered = CATEGORIES.filter((c) => present.has(c));
-    return [...ordered, ...[...present].filter((c) => !CATEGORIES.includes(c))];
-  }, [products]);
+    const order = tree?.length ? tree.map((c) => c.name) : CATEGORIES;
+    const ordered = order.filter((c) => present.has(c));
+    return [...ordered, ...[...present].filter((c) => !order.includes(c))];
+  }, [products, tree]);
+
+  const subs = useMemo(() => {
+    const present = new Set((products || []).filter((p) => p.category === category).map((p) => p.subcategory).filter(Boolean));
+    return ((tree || []).find((c) => c.name === category)?.subcategories || []).filter((s) => present.has(s.name));
+  }, [tree, products, category]);
 
   const list = useMemo(() => {
     if (!products) return [];
     return products
       .filter((p) => !category || p.category === category)
-      .filter((p) => !q || `${p.name} ${p.subtitle} ${p.category}`.toLowerCase().includes(q.toLowerCase()))
+      .filter((p) => !sub || p.subcategory === sub)
+      .filter((p) => !q || `${p.name} ${p.subtitle} ${p.category} ${p.subcategory || ''}`.toLowerCase().includes(q.toLowerCase()))
       .sort(SORTS[sort]?.fn || SORTS.featured.fn);
-  }, [products, category, sort, q]);
+  }, [products, category, sub, sort, q]);
+
+  const pickCategory = (c) => {
+    const next = new URLSearchParams(params);
+    c ? next.set('category', c) : next.delete('category');
+    next.delete('sub');
+    setParams(next, { replace: true });
+  };
 
   const set = (k, v) => {
     const next = new URLSearchParams(params);
@@ -51,9 +70,9 @@ export default function Shop() {
         <div className="container">
           <div className="shop-toolbar">
             <div className="chips" role="tablist" aria-label="Categories">
-              <button className={`chip ${!category ? 'active' : ''}`} onClick={() => set('category', '')}>All</button>
+              <button className={`chip ${!category ? 'active' : ''}`} onClick={() => pickCategory('')}>All</button>
               {cats.map((c) => (
-                <button key={c} className={`chip ${category === c ? 'active' : ''}`} onClick={() => set('category', c)}>{c}</button>
+                <button key={c} className={`chip ${category === c ? 'active' : ''}`} onClick={() => pickCategory(c)}>{c}</button>
               ))}
             </div>
             <div className="shop-tools">
@@ -66,6 +85,15 @@ export default function Shop() {
               </select>
             </div>
           </div>
+          {category && subs.length > 0 && (
+            <div className="subchips" role="tablist" aria-label={`${category} types`}>
+              <span className="subchips-label">{category}</span>
+              <button className={`subchip ${!sub ? 'active' : ''}`} onClick={() => set('sub', '')}>All</button>
+              {subs.map((s) => (
+                <button key={s.id} className={`subchip ${sub === s.name ? 'active' : ''}`} onClick={() => set('sub', s.name)}>{s.name}</button>
+              ))}
+            </div>
+          )}
           {error && <div className="alert alert-error">{error}</div>}
           {!products && !error ? (
             <Loader />

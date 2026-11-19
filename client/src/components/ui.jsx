@@ -77,7 +77,7 @@ export function ProductCard({ product }) {
         {product.highlight && <span className="product-card-chip">{product.highlight}</span>}
       </Link>
       <div className="product-card-body">
-        <span className="product-card-cat">{product.category}{product.size ? ` · ${product.size}` : ''}</span>
+        <span className="product-card-cat">{[product.subcategory || product.category, product.size].filter(Boolean).join(' · ')}</span>
         <h3><Link to={`/product/${product.slug}`}>{product.name}</Link></h3>
         <p className="product-card-sub">{product.subtitle}</p>
         <div className="product-card-foot">

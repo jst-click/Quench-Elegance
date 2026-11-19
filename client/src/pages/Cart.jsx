@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 import { inr } from '../api';
-import { useCart } from '../context/AppContext';
+import { lineHref, lineKey, useCart } from '../context/AppContext';
 
 export default function Cart() {
   const { items, setQty, remove, subtotal } = useCart();
@@ -27,20 +27,20 @@ export default function Cart() {
         <div className="cart-layout">
           <div className="cart-lines card">
             {items.map((i) => (
-              <div key={i.productId} className="cart-line">
-                <Link to={`/product/${i.slug}`} className="cart-line-img"><img src={i.image} alt="" /></Link>
+              <div key={lineKey(i)} className={`cart-line ${i.comboId ? 'is-combo' : ''}`}>
+                <Link to={lineHref(i)} className="cart-line-img"><img src={i.image} alt="" /></Link>
                 <div className="cart-line-info">
-                  <Link to={`/product/${i.slug}`} className="cart-line-name">{i.name}</Link>
+                  <Link to={lineHref(i)} className="cart-line-name">{i.comboId && <span className="kit-badge">Kit</span>}{i.name}</Link>
                   <span className="muted">{i.subtitle}{i.size ? ` · ${i.size}` : ''}</span>
                   <span className="cart-line-unit">{inr(i.price)} each</span>
                 </div>
                 <div className="qty">
-                  <button onClick={() => setQty(i.productId, i.qty - 1)} aria-label="Decrease"><Minus size={16} /></button>
+                  <button onClick={() => setQty(lineKey(i), i.qty - 1)} aria-label="Decrease"><Minus size={16} /></button>
                   <span>{i.qty}</span>
-                  <button onClick={() => setQty(i.productId, i.qty + 1)} aria-label="Increase"><Plus size={16} /></button>
+                  <button onClick={() => setQty(lineKey(i), i.qty + 1)} aria-label="Increase"><Plus size={16} /></button>
                 </div>
                 <strong className="cart-line-total">{inr(i.qty * i.price)}</strong>
-                <button className="icon-btn sm" onClick={() => remove(i.productId)} aria-label="Remove"><Trash2 size={18} /></button>
+                <button className="icon-btn sm" onClick={() => remove(lineKey(i))} aria-label="Remove"><Trash2 size={18} /></button>
               </div>
             ))}
           </div>

@@ -12,8 +12,8 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy.exc import IntegrityError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from .config import CLIENT_DIST, UPLOAD_DIR, settings
-from .routers import admin, auth, shop
+from .config import ADMIN_DIST, CLIENT_DIST, UPLOAD_DIR, settings
+from .routers import admin, auth, chat, shop
 from .seed import init_db
 from .utils import ApiError
 
@@ -69,9 +69,24 @@ app.include_router(auth.router)
 app.include_router(admin.router)
 app.include_router(admin.protected)
 app.include_router(shop.router)
+app.include_router(chat.router)
+app.include_router(chat.admin_router)
 
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+
+# ---- Serve the built admin panel (admin/dist) at /admin in production ----
+# Registered before the storefront catch-all so /admin/* never falls through to the website.
+if ADMIN_DIST.exists():
+
+    @app.get("/admin", include_in_schema=False)
+    @app.get("/admin/{full_path:path}", include_in_schema=False)
+    def admin_spa(full_path: str = ""):
+        candidate = (ADMIN_DIST / full_path).resolve()
+        if full_path and candidate.is_file() and ADMIN_DIST.resolve() in candidate.parents:
+            return FileResponse(candidate)
+        return FileResponse(ADMIN_DIST / "index.html")
+
 
 # ---- Serve the built React app (client/dist) in production ----
 if CLIENT_DIST.exists():

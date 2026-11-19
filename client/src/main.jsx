@@ -5,7 +5,7 @@ import App from './App';
 import { AuthProvider, CartProvider, ToastProvider } from './context/AppContext';
 import './styles/base.css';
 import './styles/site.css';
-import './styles/admin.css';
+import './styles/combos.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, KeyRound, Lock, MessageCircle, Phone, UserPlus } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ClipboardList, KeyRound, Lock, MessageCircle, Phone, UserPlus } from 'lucide-react';
 import { api } from '../api';
 import { useAuth, useToast } from '../context/AppContext';
 import { BRAND, whatsappLink } from '../content';
@@ -12,15 +12,15 @@ export default function Login() {
   const toast = useToast();
   const { customer, login } = useAuth();
 
-  const [step, setStep] = useState('phone'); // phone | otp | register | requested
+  const [step, setStep] = useState('phone'); // phone | otp | register
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [devOtp, setDevOtp] = useState('');
+  const [smsError, setSmsError] = useState('');
   const [info, setInfo] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [resendIn, setResendIn] = useState(0);
-  const [reg, setReg] = useState({ name: '', email: '', city: '', message: '' });
 
   useEffect(() => { if (customer) navigate(next, { replace: true }); }, [customer, next, navigate]);
   useEffect(() => {
@@ -38,6 +38,7 @@ export default function Login() {
       const d = await api.post('/api/auth/otp/request', { phone: digits }, { auth: null });
       setInfo(d.message);
       setDevOtp(d.devOtp || '');
+      setSmsError(d.smsError || '');
       setResendIn(d.resendInSeconds || 30);
       setOtp('');
       setStep('otp');
@@ -55,16 +56,6 @@ export default function Login() {
       login(d.token, d.customer);
       toast(`Welcome, ${d.customer.name}`);
       navigate(next, { replace: true });
-    } catch (err) { setError(err.message); } finally { setLoading(false); }
-  };
-
-  const sendRequest = async (e) => {
-    e.preventDefault();
-    setError(''); setLoading(true);
-    try {
-      const d = await api.post('/api/auth/register-request', { ...reg, phone: digits }, { auth: null });
-      setInfo(d.message);
-      setStep('requested');
     } catch (err) { setError(err.message); } finally { setLoading(false); }
   };
 
@@ -90,6 +81,12 @@ export default function Login() {
             {error && <div className="alert alert-error">{error}</div>}
             <button className="btn btn-primary btn-block" disabled={loading || digits.length !== 10}>{loading ? 'Sending OTP…' : 'Send OTP'}</button>
             <p className="auth-foot"><Lock size={14} /> Only mobile numbers registered by Quench Elegance can place orders.</p>
+            <div className="auth-register">
+              <span>New to Quench Elegance?</span>
+              <Link to={digits.length === 10 ? `/register?phone=${digits}` : '/register'} className="btn btn-outline btn-block">
+                <ClipboardList size={16} /> Register with a consultation
+              </Link>
+            </div>
           </form>
         )}
 
@@ -100,6 +97,7 @@ export default function Login() {
             <h1>Enter OTP</h1>
             <p className="muted">{info}</p>
             {devOtp && <div className="alert alert-info">Test mode — your OTP is <strong>{devOtp}</strong>. (Hidden once SMS is configured.)</div>}
+            {smsError && <div className="alert alert-error small">SMS not delivered: {smsError}</div>}
             <div className="field">
               <label htmlFor="otp">6-digit OTP</label>
               <input id="otp" className="input otp-input" inputMode="numeric" autoComplete="one-time-code" maxLength={6} value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} required autoFocus />
@@ -113,35 +111,19 @@ export default function Login() {
         )}
 
         {step === 'register' && (
-          <form onSubmit={sendRequest}>
+          <div className="auth-register-step">
             <button type="button" className="back-link" onClick={() => setStep('phone')}><ArrowLeft size={16} /> Try another number</button>
             <span className="auth-icon"><UserPlus size={22} /></span>
             <h1>Number not registered</h1>
             <p className="muted">
-              <strong>+91 {digits}</strong> isn't registered with Quench Elegance yet. Share your details and our team will verify and activate your account — or reach us directly.
+              <strong>+91 {digits}</strong> isn't registered with Quench Elegance yet. To register, complete a short hair &amp; scalp
+              consultation. Our consultant reviews it and activates your account — then you can log in with OTP.
             </p>
-            <div className="form-grid">
-              <div className="field span-2"><label htmlFor="r-name">Full name *</label><input id="r-name" className="input" value={reg.name} onChange={(e) => setReg({ ...reg, name: e.target.value })} required /></div>
-              <div className="field"><label htmlFor="r-email">Email</label><input id="r-email" type="email" className="input" value={reg.email} onChange={(e) => setReg({ ...reg, email: e.target.value })} /></div>
-              <div className="field"><label htmlFor="r-city">City</label><input id="r-city" className="input" value={reg.city} onChange={(e) => setReg({ ...reg, city: e.target.value })} /></div>
-              <div className="field span-2"><label htmlFor="r-msg">Message (optional)</label><textarea id="r-msg" className="textarea" style={{ minHeight: 70 }} value={reg.message} onChange={(e) => setReg({ ...reg, message: e.target.value })} /></div>
-            </div>
-            {error && <div className="alert alert-error">{error}</div>}
-            <button className="btn btn-primary btn-block" disabled={loading}>{loading ? 'Sending…' : 'Request registration'}</button>
+            <Link to={`/register?phone=${digits}`} className="btn btn-primary btn-block">Start consultation <ArrowRight size={16} /></Link>
             <div className="auth-alt">
-              <a className="btn btn-outline btn-sm" href={whatsappLink(`Hi, please register my number +91 ${digits} with Quench Elegance.`)} target="_blank" rel="noreferrer"><MessageCircle size={15} /> WhatsApp</a>
+              <a className="btn btn-outline btn-sm" href={whatsappLink(`Hi, I'd like to register my number +91 ${digits} with Quench Elegance.`)} target="_blank" rel="noreferrer"><MessageCircle size={15} /> WhatsApp</a>
               <a className="btn btn-outline btn-sm" href={`tel:+${BRAND.phoneRaw}`}><Phone size={15} /> Call us</a>
             </div>
-          </form>
-        )}
-
-        {step === 'requested' && (
-          <div className="center-text">
-            <span className="auth-icon"><UserPlus size={22} /></span>
-            <h1>Request received</h1>
-            <p className="muted">{info}</p>
-            <p className="muted">Once activated, log in with <strong>+91 {digits}</strong> and OTP.</p>
-            <Link to="/shop" className="btn btn-primary">Continue browsing</Link>
           </div>
         )}
       </div>

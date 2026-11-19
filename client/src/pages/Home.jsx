@@ -4,13 +4,16 @@ import { ArrowRight, Award, FlaskConical, Instagram, Leaf, Lightbulb, ShieldChec
 import { api } from '../api';
 import { AWARDS, BRAND, WHY } from '../content';
 import { ProductCard, Reveal, SectionHead } from '../components/ui';
+import ComboCard from '../components/ComboCard';
 
 const WHY_ICONS = { Lightbulb, ShieldCheck, Infinity: InfinityIcon, IndianRupee, Users };
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [combos, setCombos] = useState([]);
   useEffect(() => {
     api.get('/api/products').then((d) => setProducts(d.products)).catch(() => {});
+    api.get('/api/combos?featured=true').then((d) => setCombos(d.combos)).catch(() => {});
   }, []);
   const featured = products.filter((p) => p.featured).slice(0, 4);
   const showcase = featured.length ? featured : products.slice(0, 4);
@@ -95,6 +98,23 @@ export default function Home() {
           <div className="center-cta show-sm"><Link to="/shop" className="btn btn-outline">View all products</Link></div>
         </div>
       </section>
+
+      {/* ---------- COMBO KITS ---------- */}
+      {combos.length > 0 && (
+        <section className="section kits-section" id="kits">
+          <div className="container">
+            <SectionHead
+              center
+              eyebrow="Signature Kits · Save up to 57%"
+              title="Complete rituals, thoughtfully paired"
+              text="Our formulations brought together as step-by-step routines — everything your hair and scalp need, at a special kit price."
+            />
+            <div className="combo-grid">
+              {combos.map((c, i) => <Reveal key={c.id} delay={i * 90}><ComboCard combo={c} /></Reveal>)}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ---------- PHILOSOPHY ---------- */}
       <section className="section philosophy">
